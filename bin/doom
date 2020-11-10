@@ -9,6 +9,8 @@
 ;; The garbage collector isn't important during CLI ops. A higher threshold
 ;; makes it 15-30% faster, but set it too high and we risk spiralling memory
 ;; usage in longer sessions.
+;; (setq straight-disable-native-compilation t)
+(setq comp-speed 3)
 (setq gc-cons-threshold 134217728)   ; 128mb
 
 ;; Prioritize non-byte-compiled source files in non-interactive sessions to
