@@ -78,6 +78,9 @@ all hooks after it are ignored.")
 
 (global-set-key [remap keyboard-quit] #'doom/escape)
 
+(with-eval-after-load 'eldoc
+  (eldoc-add-command 'doom/escape))
+
 
 ;;
 ;;; General + leader/localleader keys
@@ -387,21 +390,6 @@ For example, :nvi will map to (list 'normal 'visual 'insert). See
 
 If evil isn't loaded, evil-specific bindings are ignored.
 
-States
-  :n  normal
-  :v  visual
-  :i  insert
-  :e  emacs
-  :o  operator
-  :m  motion
-  :r  replace
-  :g  global  (binds the key without evil `current-global-map')
-
-  These can be combined in any order, e.g. :nvi will apply to normal, visual and
-  insert mode. The state resets after the following key=>def pair. If states are
-  omitted the keybind will be global (no emacs state; this is different from
-  evil's Emacs state and will work in the absence of `evil-mode').
-
 Properties
   :leader [...]                   an alias for (:prefix doom-leader-key ...)
   :localleader [...]              bind to localleader; requires a keymap
@@ -418,7 +406,30 @@ Properties
   :unless [CONDITION] [...]
 
   Any of the above properties may be nested, so that they only apply to a
-  certain group of keybinds."
+  certain group of keybinds.
+
+States
+  :n  normal
+  :v  visual
+  :i  insert
+  :e  emacs
+  :o  operator
+  :m  motion
+  :r  replace
+  :g  global  (binds the key without evil `current-global-map')
+
+  These can be combined in any order, e.g. :nvi will apply to normal, visual and
+  insert mode. The state resets after the following key=>def pair. If states are
+  omitted the keybind will be global (no emacs state; this is different from
+  evil's Emacs state and will work in the absence of `evil-mode').
+
+  These must be placed right before the key string.
+
+  Do
+    (map! :leader :desc \"Description\" :n \"C-c\" #'dosomething)
+  Don't
+    (map! :n :leader :desc \"Description\" \"C-c\" #'dosomething)
+    (map! :leader :n :desc \"Description\" \"C-c\" #'dosomething)"
   (doom--map-process rest))
 
 (provide 'core-keybinds)
